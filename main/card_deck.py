@@ -4,11 +4,7 @@ from typing import Any
 
 from card import Card
 
-
-
-# Class to handle deck of cards (52)
-
-class Deck:
+class FaceDownDeck:
     def __init__(self, num_decks: int = 1) -> None:
         
         if num_decks < 0:
@@ -17,7 +13,6 @@ class Deck:
         base_deck: npt.NDArray[np.object_] = np.array([Card(r + 1, s) for s in 'HSDC' for r in range(13)])
         
         self._deck: npt.NDArray[np.object_] = np.tile(base_deck, num_decks)
-    
     
     def shuffle(self) -> None:
         np.random.shuffle(self._deck)
@@ -62,12 +57,12 @@ class Deck:
     
     
     def __eq__(self, other: Any) -> bool:
-        if isinstance(other, Deck):
+        if isinstance(other, FaceDownDeck):
             return np.array_equal(self._deck, other._deck)
         return False
 
 
-class OpenDeck(Deck):
+class FaceUpDeck(FaceDownDeck):
     def __init__(self, num_decks: int = 1) -> None:
         super().__init__(num_decks)
     
